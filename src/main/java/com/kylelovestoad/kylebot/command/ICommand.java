@@ -1,0 +1,34 @@
+package com.kylelovestoad.kylebot.command;
+
+import net.dv8tion.jda.api.Permission;
+
+import java.util.List;
+
+public interface ICommand {
+
+    void handle(CommandContext ctx);
+
+    /**
+     * @return A String representing the name of the command
+     */
+    String getName();
+
+    /**
+     * @return A String representing the help description of the command
+     */
+    String getHelp();
+
+    /**
+     * @return A List of Strings which represent the alternate names for the command
+     */
+    default List<String> getAliases() {
+        return List.of();
+    }
+
+    /**
+     * @return A List of Permissions which represent the permissions needed to execute the command
+     */
+    default List<Permission> getPermissions() {
+        return List.of();
+    }
+}
