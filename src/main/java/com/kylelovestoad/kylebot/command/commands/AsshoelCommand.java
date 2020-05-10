@@ -1,12 +1,13 @@
 package com.kylelovestoad.kylebot.command.commands;
 
 import com.kylelovestoad.kylebot.Config;
-import com.kylelovestoad.kylebot.command.CommandContext;
+import com.kylelovestoad.kylebot.command.CommandCategory;
 import com.kylelovestoad.kylebot.command.ICommand;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.awt.*;
 import java.util.List;
@@ -14,20 +15,20 @@ import java.util.List;
 public class AsshoelCommand implements ICommand {
 
     @Override
-    public void handle(CommandContext ctx) {
+    public void handle(GuildMessageReceivedEvent event, List<String> args) {
 
-        final List<String> args = ctx.getArgs();
+        final TextChannel channel = event.getChannel();
 
-        final TextChannel channel = ctx.getChannel();
+        final Message message = event.getMessage();
 
-        final Message message = ctx.getMessage();
+        final Member selfMember = event.getGuild().getSelfMember();
 
-        if (args.size() < 1) {
+        if (args.isEmpty()) {
 
             final EmbedBuilder embed = new EmbedBuilder()
-                    .setTitle("Imagine not doing the command correctly")
-                    .setDescription("Here's how you do it stupid: `" + Config.get("prefix") + this.getName() + " <user mention>` ")
-                    .setFooter("could not be me")
+                    .setTitle("Bad")
+                    .setDescription("❌ Imagine not putting any arguments")
+                    .setFooter("Could not be me")
                     .setColor(Color.RED);
 
             channel.sendMessage(embed.build()).queue();
@@ -47,9 +48,13 @@ public class AsshoelCommand implements ICommand {
             return;
         }
 
+        if (message.getMentionedMembers().contains(selfMember)) {
+            channel.sendMessage("very funny :rolling_eyes:").queue();
+            return;
+        }
+
 
         if (args.size() >= 1) {
-
             channel.sendMessage(args.get(0) + " fuck you\n" + args.get(0) + "  fuck you asshoel fuck you").queue();
         }
     }
@@ -61,7 +66,16 @@ public class AsshoelCommand implements ICommand {
 
     @Override
     public String getHelp() {
-        return "Calls the user you pinged an asshoel\n" +
-                "Usage: `" + Config.get("prefix") + this.getName() + " <user>`";
+        return "Calls the user you pinged an asshoel";
+    }
+
+    @Override
+    public String getUsage() {
+        return Config.get("prefix") + this.getName() + " <user mention>";
+    }
+
+    @Override
+    public CommandCategory getCategory() {
+        return CommandCategory.FUN;
     }
 }

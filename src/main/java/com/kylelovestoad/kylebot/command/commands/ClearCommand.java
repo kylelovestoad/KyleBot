@@ -1,96 +1,107 @@
 package com.kylelovestoad.kylebot.command.commands;
 
 import com.kylelovestoad.kylebot.Config;
-import com.kylelovestoad.kylebot.command.CommandContext;
+import com.kylelovestoad.kylebot.command.CommandCategory;
 import com.kylelovestoad.kylebot.command.ICommand;
 import net.dv8tion.jda.api.EmbedBuilder;
-
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.awt.*;
+import java.time.OffsetDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 public class ClearCommand implements ICommand {
 
 
     @Override
-    public void handle(CommandContext ctx) {
+    public void handle(GuildMessageReceivedEvent event, List<String> args) {
 
-        final List<String> args = ctx.getArgs();
+        final TextChannel channel = event.getChannel();
 
-        final TextChannel channel = ctx.getChannel();
+        List<Message> messages;
 
-        try {
+        if (args.isEmpty()) {
 
-            List<Message> messages;
+            // Not putting any args
+            final EmbedBuilder embed = new EmbedBuilder()
+                    .setTitle("What are you doing?")
+                    .setDescription("❌ Imagine not putting any arguments")
+                    .setFooter("This is a bruh moment")
+                    .setColor(Color.RED);
 
-            if (args.size() < 1) {
-
-                // Not putting any args
-                final EmbedBuilder embed = new EmbedBuilder();
-                embed.setTitle("Imagine not doing the command correctly")
-                        .setDescription("Here's how you do it stupid: `" + Config.get("prefix") + this.getName() + " <amount>` ")
-                        .setFooter("This is a bruh moment")
-                        .setColor(Color.RED);
-
-                channel.sendMessage(embed.build()).queue();
-
-            } else {
-
-                int amount = Integer.parseInt(args.get(0));
-
-                if (amount + 1 > 100) {
-                    // If message count is over 100
-                    for (int i = amount / 100; i >= 0; i--) {
-                        messages = channel.getHistory()
-                                .retrievePast(100)
-                                .complete();
-
-                        channel.purgeMessages(messages);
-                    }
-
-                    messages = channel.getHistory()
-                            .retrievePast(amount - ((amount / 100) * 100) + 1)
-                            .complete();
-
-                    channel.purgeMessages(messages);
-
-                } else {
-                    messages = channel.getHistory()
-                            .retrievePast(amount + 1)
-                            .complete();
-
-                    channel.purgeMessages(messages);
-                }
-                channel.sendMessage("Successfully deleted `" + amount + "` messages").queue();
-            }
-        } catch (NumberFormatException e) {
-
-            // Do Nothing
-
-        } catch (IllegalArgumentException e) {
-
-            if (e.toString().startsWith("java.lang.IllegalArgumentException: Message retrieval limit")) {
-                // Too little messages
-                final EmbedBuilder embed = new EmbedBuilder()
-                        .setColor(Color.RED)
-                        .setTitle("Bruh")
-                        .setDescription("❌ You can't clear no messages, what are you thinking?!");
-
-                channel.sendMessage(embed.build()).queue();
-
-            } else {
-                // Message is two weeks old
-                final EmbedBuilder embed = new EmbedBuilder()
-                        .setColor(Color.RED)
-                        .setTitle("Lmao")
-                        .setDescription("❌ Welp, your stuck with these messages, I can't delete messages 2 weeks or older");
-
-                channel.sendMessage(embed.build()).queue();
-            }
+            channel.sendMessage(embed.build()).queue();
+            return;
         }
+
+        int amount;
+        try {
+            amount = Integer.parseInt(args.get(0));
+        } catch (NumberFormatException e) {
+            return;
+        }
+
+        if (amount + 1 <= 0) {
+            final EmbedBuilder embed = new EmbedBuilder()
+                    .setTitle("Hey asshole")
+                    .setDescription("❌ You can't clear less than 0 messages")
+                    .setFooter("rarted")
+                    .setColor(Color.RED);
+
+            channel.sendMessage(embed.build()).queue();
+            return;
+        }
+
+        if (amount + 1 < 100) {
+
+            messages = channel.getHistory()
+                    .retrievePast(amount + 1)
+                    .complete();
+
+            List<Message> deletableMessages = messages.stream()
+                    .filter(m -> (!m.getTimeCreated().isAfter(
+                            OffsetDateTime.now().plus(2, ChronoUnit.WEEKS)
+                    )))
+                    .collect(Collectors.toList());
+            channel.purgeMessages(deletableMessages);
+
+        } else {
+            // If message count is over 100
+            for (int i = amount / 100; i >= 0; i--) {
+                messages = channel.getHistory()
+                        .retrievePast(100)
+                        .complete();
+
+                List<Message> deletableMessages = messages.stream()
+                        .filter(m -> (!m.getTimeCreated().isAfter(
+                                OffsetDateTime.now().plus(2, ChronoUnit.WEEKS)
+                        )))
+                        .collect(Collectors.toList());
+
+                channel.purgeMessages(deletableMessages);
+
+
+            }
+
+            messages = channel.getHistory()
+                    .retrievePast(amount - ((amount / 100) * 100) + 1)
+                    .complete();
+
+            List<Message> deletableMessages = messages.stream()
+                    .filter(m -> (m.getTimeCreated().isAfter(
+                            OffsetDateTime.now().plus(2, ChronoUnit.WEEKS)
+                    )))
+                    .collect(Collectors.toList());
+            channel.purgeMessages(deletableMessages);
+
+        }
+
+        channel.sendMessageFormat("Successfully deleted `%d` messages", amount).queue((message -> message.delete().queueAfter(5, TimeUnit.SECONDS)));
     }
 
     @Override
@@ -100,13 +111,22 @@ public class ClearCommand implements ICommand {
 
     @Override
     public String getHelp() {
-        return "Clears a specified number of messages\n" +
-                "Usage: `" + Config.get("prefix") + this.getName() + " <amount>`";
+        return "Clears a specified number of messages";
+    }
+
+    @Override
+    public String getUsage() {
+        return Config.get("prefix") + this.getName() + " <amount>";
+    }
+
+    @Override
+    public CommandCategory getCategory() {
+        return CommandCategory.MODERATION;
     }
 
     @Override
     public List<String> getAliases() {
-        return List.of("delete", "remove");
+        return List.of("delete", "remove", "purge");
     }
 
     @Override

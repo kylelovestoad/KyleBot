@@ -1,19 +1,22 @@
 package com.kylelovestoad.kylebot.command.commands;
 
-import com.kylelovestoad.kylebot.command.CommandContext;
-
+import com.kylelovestoad.kylebot.Config;
+import com.kylelovestoad.kylebot.command.CommandCategory;
 import com.kylelovestoad.kylebot.command.ICommand;
 import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+
+import java.util.List;
 
 public class PingCommand implements ICommand {
 
     @Override
-    public void handle(CommandContext ctx) {
+    public void handle(GuildMessageReceivedEvent event, List<String> args) {
 
-        JDA jda = ctx.getJDA();
+        JDA jda = event.getJDA();
 
         jda.getRestPing().queue(
-                (ping) -> ctx.getChannel()
+                (Long ping) -> event.getChannel()
                         .sendMessageFormat("Reset ping: %sms\nWS ping: %sms", ping, jda.getGatewayPing()).queue());
     }
 
@@ -23,7 +26,17 @@ public class PingCommand implements ICommand {
     }
 
     @Override
+    public String getUsage() {
+        return Config.get("prefix") + this.getName();
+    }
+
+    @Override
     public String getHelp() {
         return "Shows the current ping from the bot to the discord server.";
+    }
+
+    @Override
+    public CommandCategory getCategory() {
+        return CommandCategory.GENERAL;
     }
 }

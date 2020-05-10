@@ -1,20 +1,20 @@
 package com.kylelovestoad.kylebot.command.commands;
 
-import com.kylelovestoad.kylebot.command.CommandContext;
+import com.kylelovestoad.kylebot.Config;
+import com.kylelovestoad.kylebot.command.CommandCategory;
 import com.kylelovestoad.kylebot.command.ICommand;
-
 import net.dv8tion.jda.api.EmbedBuilder;
-
 import net.dv8tion.jda.api.entities.TextChannel;
-
+import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.awt.*;
+import java.util.List;
 
 public class NoSirCommand implements ICommand {
 
-    public void handle(CommandContext ctx) {
+    public void handle(GuildMessageReceivedEvent event, List<String> args) {
 
-        TextChannel channel = ctx.getChannel();
+        TextChannel channel = event.getChannel();
 
         int amount = (int) (Math.random() * 100 + 1);
 
@@ -33,7 +33,17 @@ public class NoSirCommand implements ICommand {
     }
 
     @Override
+    public String getUsage() {
+        return Config.get("prefix") + this.getName();
+    }
+
+    @Override
     public String getHelp() {
         return "NOSSSSSSSSSSSSSSSIRRRRRRRRRRR";
+    }
+
+    @Override
+    public CommandCategory getCategory() {
+        return CommandCategory.FUN;
     }
 }

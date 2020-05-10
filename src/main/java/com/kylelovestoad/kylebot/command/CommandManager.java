@@ -2,17 +2,22 @@ package com.kylelovestoad.kylebot.command;
 
 import com.kylelovestoad.kylebot.Config;
 import com.kylelovestoad.kylebot.command.commands.*;
-import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 public class CommandManager {
 
+
+    /**
+     * Adds commands to the manager
+     */
     public CommandManager() {
         addCommand(new AsshoelCommand());
         addCommand(new BanCommand());
@@ -32,7 +37,7 @@ public class CommandManager {
      * Adds the command, also checks for duplicate commands.
      */
     private void addCommand(ICommand cmd) {
-        boolean duplicateName = this.commands.stream().anyMatch((it) -> it.getName().equalsIgnoreCase(cmd.getName()));
+        boolean duplicateName = this.commands.stream().anyMatch((ICommand it) -> it.getName().equalsIgnoreCase(cmd.getName()));
 
         if (duplicateName) {
             throw new IllegalArgumentException();
@@ -54,7 +59,6 @@ public class CommandManager {
      */
     public ICommand getCommand(String search) {
         String searchLowerCase = search.toLowerCase();
-
         for (ICommand cmd : this.commands) {
             if (cmd.getName().equals(searchLowerCase) || cmd.getAliases().contains(searchLowerCase)) {
                 return cmd;
@@ -64,10 +68,20 @@ public class CommandManager {
         return null;
     }
 
+    public List<ICommand> filterCommandsByCategory(CommandCategory category) {
+        List<ICommand> filteredCommands = new ArrayList<>();
+        this.commands.stream()
+                .filter(cmd -> cmd.getCategory().equals(category))
+                .forEach(filteredCommands::add);
+
+        return filteredCommands;
+    }
+
     /**
      * @param event The event which is being handled
      */
-    public void handle(GuildMessageReceivedEvent event) {
+    public void handle(@NotNull GuildMessageReceivedEvent event) {
+
         String[] split = event.getMessage().getContentRaw()
                 .replaceFirst("(?i)" + Pattern.quote(Config.get("prefix")), "")
                 .split("\\s+");
@@ -80,21 +94,19 @@ public class CommandManager {
             event.getChannel().sendTyping().queue();
             List<String> args = Arrays.asList(split).subList(1, split.length);
 
-            CommandContext ctx = new CommandContext(event, args);
+            Message message = event.getMessage();
 
-            Message message = ctx.getMessage();
-
-            if (!ctx.getMember().hasPermission(cmd.getPermissions())) {
+            if (!Objects.requireNonNull(event.getMember()).hasPermission(cmd.getPermissions())) {
                 event.getChannel().sendMessage("You can't do that shit.").queue();
                 return;
             }
 
-            if (!ctx.getSelfMember().hasPermission(cmd.getPermissions())) {
+            if (!event.getGuild().getSelfMember().hasPermission(cmd.getPermissions())) {
                 event.getChannel().sendMessage("I can't do that shit.").queue();
                 return;
             }
 
-            cmd.handle(ctx);
+            cmd.handle(event, args);
         }
     }
 }
