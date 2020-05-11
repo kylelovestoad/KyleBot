@@ -32,7 +32,7 @@ public class HelpCommand implements ICommand {
 
             for (CommandCategory categories : CommandCategory.getNonHiddenCategories()) {
                 embed.addField(categories.name().substring(0, 1).toUpperCase()
-                        + categories.name().substring(1).toLowerCase(), "`" + Config.get("prefix") + this.getName() + categories.name().toLowerCase() + "`", true);
+                        + categories.name().substring(1).toLowerCase(), "`" + Config.get("prefix") + this.getName() + " " + categories.name().toLowerCase() + "`", true);
             }
 
             channel.sendMessage(embed.build()).queue();
