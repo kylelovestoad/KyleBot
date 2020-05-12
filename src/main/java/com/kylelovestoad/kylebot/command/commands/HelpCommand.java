@@ -44,7 +44,7 @@ public class HelpCommand implements ICommand {
 
         // If the command does not exist and the user isn't searching for a category, the bot will send a message
         // saying that the command doesn't exist
-        if (cmd == null && !CommandCategory.getNonHiddenCategories().contains(CommandCategory.fromString(search))) {
+        if (cmd == null && !CommandCategory.getNonHiddenCategories().contains(CommandCategory.fromKey(search))) {
 
             final EmbedBuilder embed = new EmbedBuilder()
                     .setTitle("Actually, what the fuck")
@@ -60,12 +60,12 @@ public class HelpCommand implements ICommand {
 
             EmbedBuilder embed = new EmbedBuilder();
 
-            if (CommandCategory.getNonHiddenCategories().contains(CommandCategory.fromString(search))) {
+            if (CommandCategory.getNonHiddenCategories().contains(CommandCategory.fromKey(search))) {
 
                 embed.setTitle(search.substring(0, 1).toUpperCase() + search.substring(1))
                         .setColor(Color.BLUE);
 
-                for (ICommand command : manager.filterCommandsByCategory(CommandCategory.fromString(search))) {
+                for (ICommand command : manager.filterCommandsByCategory(CommandCategory.fromKey(search))) {
                     embed.addField(Config.get("prefix") + command.getName(), command.getHelp(), false);
                 }
 

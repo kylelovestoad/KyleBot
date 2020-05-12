@@ -30,16 +30,6 @@ public enum CommandCategory {
         return null;
     }
 
-    public static CommandCategory fromString(String str) {
-
-        for (CommandCategory commandCategory : values()) {
-            if (commandCategory.name().equalsIgnoreCase(str)) {
-                return commandCategory;
-            }
-        }
-
-        return null;
-    }
 
     public static List<CommandCategory> getNonHiddenCategories() {
         List<CommandCategory> nonHiddenCategories = new ArrayList<>();
