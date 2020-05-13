@@ -109,6 +109,11 @@ public class HelpCommand implements ICommand {
     }
 
     @Override
+    public boolean isOwnerCommand() {
+        return false;
+    }
+
+    @Override
     public CommandCategory getCategory() {
         return CommandCategory.GENERAL;
     }

@@ -25,6 +25,7 @@ public interface ICommand {
      */
     String getUsage();
 
+    boolean isOwnerCommand();
     /**
      *
      * @return A CommandCategory representing the category that the command was placed in

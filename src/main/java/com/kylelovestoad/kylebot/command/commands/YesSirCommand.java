@@ -38,6 +38,11 @@ public class YesSirCommand implements ICommand {
     }
 
     @Override
+    public boolean isOwnerCommand() {
+        return false;
+    }
+
+    @Override
     public String getHelp() {
         return "YESSSSSSSSSSSSSSSSIRRRRRRRRRRR";
     }

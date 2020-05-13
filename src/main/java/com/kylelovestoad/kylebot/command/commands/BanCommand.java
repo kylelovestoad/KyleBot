@@ -111,6 +111,11 @@ public class BanCommand implements ICommand {
     }
 
     @Override
+    public boolean isOwnerCommand() {
+        return false;
+    }
+
+    @Override
     public CommandCategory getCategory() {
         return CommandCategory.MODERATION;
     }

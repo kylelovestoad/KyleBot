@@ -95,7 +95,9 @@ public class CommandManager {
             event.getChannel().sendTyping().queue();
             List<String> args = Arrays.asList(split).subList(1, split.length);
 
-            Message message = event.getMessage();
+            if(cmd.isOwnerCommand() && !Objects.requireNonNull(event.getMember()).getId().equals(Config.get("owner_id"))){
+                return;
+            }
 
             if (!Objects.requireNonNull(event.getMember()).hasPermission(cmd.getPermissions())) {
                 event.getChannel().sendMessage("You can't do that shit.").queue();

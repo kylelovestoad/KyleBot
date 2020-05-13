@@ -31,6 +31,11 @@ public class PingCommand implements ICommand {
     }
 
     @Override
+    public boolean isOwnerCommand() {
+        return false;
+    }
+
+    @Override
     public String getHelp() {
         return "Shows the current ping from the bot to the discord server.";
     }

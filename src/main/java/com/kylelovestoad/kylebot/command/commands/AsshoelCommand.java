@@ -75,6 +75,11 @@ public class AsshoelCommand implements ICommand {
     }
 
     @Override
+    public boolean isOwnerCommand() {
+        return false;
+    }
+
+    @Override
     public CommandCategory getCategory() {
         return CommandCategory.FUN;
     }
