@@ -34,7 +34,7 @@ public class YesSirCommand implements ICommand {
 
     @Override
     public String getUsage() {
-        return Config.get("prefix") + this.getName();
+        return "";
     }
 
     @Override

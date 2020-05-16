@@ -62,9 +62,7 @@ public class GithubCommand implements ICommand {
     }
 
     @Override
-    public String getUsage() {
-        return Config.get("prefix") + this.getName();
-    }
+    public String getUsage() { return ""; }
 
     @Override
     public boolean isOwnerCommand() {

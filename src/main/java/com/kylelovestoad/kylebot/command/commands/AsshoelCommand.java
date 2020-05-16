@@ -71,7 +71,7 @@ public class AsshoelCommand implements ICommand {
 
     @Override
     public String getUsage() {
-        return Config.get("prefix") + this.getName() + " <user mention>";
+        return " <user mention>";
     }
 
     @Override

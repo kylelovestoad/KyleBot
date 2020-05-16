@@ -39,7 +39,7 @@ public class InfoCommand implements ICommand {
 
     @Override
     public String getUsage() {
-        return Config.get("prefix") + this.getName();
+        return "";
     }
 
     @Override

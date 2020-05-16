@@ -116,7 +116,7 @@ public class ClearCommand implements ICommand {
 
     @Override
     public String getUsage() {
-        return Config.get("prefix") + this.getName() + " <amount>";
+        return " <amount>";
     }
 
     @Override

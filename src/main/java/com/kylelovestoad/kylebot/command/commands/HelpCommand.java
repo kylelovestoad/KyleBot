@@ -80,8 +80,8 @@ public class HelpCommand implements ICommand {
                     embed.addField("Aliases:", String.join(", ", cmd.getAliases()), false);
                 }
 
-                if (cmd.getUsage() != null && !cmd.getUsage().isEmpty()) {
-                    embed.addField("Usage:", "`" + cmd.getUsage() + "`", false);
+                if (cmd.getUsage() != null) {
+                    embed.addField("Usage:", "`" + Config.get("prefix") + cmd.getName() + cmd.getUsage() + "`", false);
                 }
 
                 if (cmd.getUsage() != null && !cmd.getPermissions().isEmpty()) {
@@ -105,7 +105,7 @@ public class HelpCommand implements ICommand {
 
     @Override
     public String getUsage() {
-        return Config.get("prefix") + this.getName() + " [command]";
+        return " [command]";
     }
 
     @Override

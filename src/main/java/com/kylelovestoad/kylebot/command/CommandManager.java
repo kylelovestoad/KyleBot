@@ -2,7 +2,6 @@ package com.kylelovestoad.kylebot.command;
 
 import com.kylelovestoad.kylebot.Config;
 import com.kylelovestoad.kylebot.command.commands.*;
-import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import org.jetbrains.annotations.NotNull;
 
@@ -27,7 +26,6 @@ public class CommandManager {
         addCommand(new InfoCommand());
         addCommand(new KickCommand());
         addCommand(new NoSirCommand());
-        addCommand(new ReactionSpamCommand());
         addCommand(new PingCommand());
         addCommand(new YesSirCommand());
     }
@@ -98,6 +96,7 @@ public class CommandManager {
             if(cmd.isOwnerCommand() && !Objects.requireNonNull(event.getMember()).getId().equals(Config.get("owner_id"))){
                 return;
             }
+
 
             if (!Objects.requireNonNull(event.getMember()).hasPermission(cmd.getPermissions())) {
                 event.getChannel().sendMessage("You can't do that shit.").queue();

@@ -110,7 +110,7 @@ public class KickCommand implements ICommand {
 
     @Override
     public String getUsage() {
-        return Config.get("prefix") + this.getName() + " <user mention> [reason]";
+        return " <user mention> [reason]";
     }
 
     @Override
