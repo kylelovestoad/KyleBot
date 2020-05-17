@@ -21,6 +21,7 @@ public class CommandManager {
         addCommand(new AsshoelCommand());
         addCommand(new BanCommand());
         addCommand(new ClearCommand());
+        addCommand(new ExpandCommand());
         addCommand(new GithubCommand());
         addCommand(new HelpCommand(this));
         addCommand(new InfoCommand());
