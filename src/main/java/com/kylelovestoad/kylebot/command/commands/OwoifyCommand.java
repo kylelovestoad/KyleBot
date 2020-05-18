@@ -27,24 +27,41 @@ public class OwoifyCommand implements ICommand {
             return;
         }
 
+        final String p;
         final String s;
 
-        int rand = (int) (Math.random()*3);
+        int rand0 = (int) (Math.random()*6);
+        int rand1 = (int) (Math.random()*7);
 
-        switch (rand) {
-            case 0 -> s = "Huohhh~";
-            case 1 -> s = "OwO";
-            case 2 -> s = "UwU";
-            case 3 -> s = ">w<";
-            case 4 -> s = "x3";
-            case 5 -> s = ":3";
+        switch (rand0) {
+            case 0 -> p = "Huohhhh.";
+            case 1 -> p = "OwO";
+            case 2 -> p = "UwU";
+            case 3 -> p = "Haiiii!";
+            case 4 -> p = "Hiiiiii!";
+            case 5 -> p = "H-Hewwo?";
             default -> {
                 return;
             }
 
         }
 
-        channel.sendMessage(s + " " + String.join(" ", args.subList(0,args.size())).replaceAll("[rl]", "w")).queue();
+        switch (rand1) {
+            case 0 -> s = "XD";
+            case 1 -> s = "=w=";
+            case 2 -> s = "^-^";
+            case 3 -> s = ";-;";
+            case 4 -> s = "x3";
+            case 5 -> s = ":3";
+            case 6 -> s = ">w<";
+            default -> {
+                return;
+            }
+
+        }
+
+
+        channel.sendMessage(p + " " + String.join(" ", args.subList(0,args.size())).replaceAll("[rl]", "w") + " " + s).queue();
     }
 
     @Override
