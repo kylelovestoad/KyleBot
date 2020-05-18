@@ -27,6 +27,7 @@ public class CommandManager {
         addCommand(new InfoCommand());
         addCommand(new KickCommand());
         addCommand(new NoSirCommand());
+        addCommand(new OwoifyCommand());
         addCommand(new PingCommand());
         addCommand(new YesSirCommand());
     }
