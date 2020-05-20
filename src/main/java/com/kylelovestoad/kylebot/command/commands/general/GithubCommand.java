@@ -1,4 +1,4 @@
-package com.kylelovestoad.kylebot.command.commands;
+package com.kylelovestoad.kylebot.command.commands.general;
 
 import com.kylelovestoad.kylebot.Config;
 import com.kylelovestoad.kylebot.command.CommandCategory;

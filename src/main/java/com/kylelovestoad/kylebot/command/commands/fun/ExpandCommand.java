@@ -1,6 +1,5 @@
-package com.kylelovestoad.kylebot.command.commands;
+package com.kylelovestoad.kylebot.command.commands.fun;
 
-import com.kylelovestoad.kylebot.Config;
 import com.kylelovestoad.kylebot.command.CommandCategory;
 import com.kylelovestoad.kylebot.command.ICommand;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -10,36 +9,40 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import java.awt.*;
 import java.util.List;
 
-public class InfoCommand implements ICommand {
-
+public class ExpandCommand implements ICommand {
     @Override
     public void handle(GuildMessageReceivedEvent event, List<String> args) {
 
         TextChannel channel = event.getChannel();
 
-        EmbedBuilder embed = new EmbedBuilder()
-                .setTitle("General Information")
-                .setDescription("KyleBot radiates massive amounts of chad energy")
-                .addField("Created by:", "kylelovestoad#4851", false)
-                .setColor(Color.BLUE);
+        if (args.isEmpty()) {
 
-        channel.sendMessage(embed.build()).queue();
+            final EmbedBuilder embed = new EmbedBuilder()
+                    .setTitle("This is the saddest display I've ever seen")
+                    .setDescription("❌ You have to actually put text to expand")
+                    .setFooter("Bro")
+                    .setColor(Color.RED);
 
+            channel.sendMessage(embed.build()).queue();
+            return;
+        }
+
+        channel.sendMessage(String.join(" ", args.subList(0,args.size())).replace("", " ").trim()).queue();
     }
 
     @Override
     public String getName() {
-        return "info";
+        return "expand";
     }
 
     @Override
     public String getHelp() {
-        return "Shows general bot information";
+        return "expands text that you input";
     }
 
     @Override
     public String getUsage() {
-        return "";
+        return " <text>";
     }
 
     @Override
@@ -49,13 +52,6 @@ public class InfoCommand implements ICommand {
 
     @Override
     public CommandCategory getCategory() {
-        return CommandCategory.GENERAL;
+        return CommandCategory.FUN;
     }
-
-    @Override
-    public List<String> getAliases() {
-        return List.of("botinfo", "information");
-    }
-
-
 }
