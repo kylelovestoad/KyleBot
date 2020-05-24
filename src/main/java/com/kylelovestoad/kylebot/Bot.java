@@ -13,8 +13,12 @@ package com.kylelovestoad.kylebot;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.requests.GatewayIntent;
+import net.dv8tion.jda.api.utils.cache.CacheFlag;
 
 import javax.security.auth.login.LoginException;
+
+import java.util.EnumSet;
 
 import static net.dv8tion.jda.api.requests.GatewayIntent.*;
 
@@ -22,16 +26,25 @@ public class Bot {
 
     /**
      * Initializes the bot
-     * @throws LoginException If the login fails
      *
+     * @throws LoginException If the login fails
      */
     private Bot() throws LoginException {
 
-        JDABuilder
-                .create(Config.get("token"), GUILD_PRESENCES, GUILD_MEMBERS, GUILD_VOICE_STATES, GUILD_EMOJIS, GUILD_MESSAGES)
+        JDABuilder.create(Config.get("token"), EnumSet.of(
+                GatewayIntent.GUILD_PRESENCES,
+                GatewayIntent.GUILD_MEMBERS,
+                GatewayIntent.GUILD_MESSAGES
+                )
+        )
+                .disableCache(EnumSet.of(
+                        CacheFlag.VOICE_STATE,
+                        CacheFlag.EMOTE
+                        )
+                )
                 .addEventListeners(new Listener())
                 .setStatus(OnlineStatus.ONLINE)
-                .setActivity(Activity.streaming("GARBAGE" ,"https://www.youtube.com/watch?v=dQw4w9WgXcQ"))
+                .setActivity(Activity.watching("JESSICA"))
                 .build();
     }
 
