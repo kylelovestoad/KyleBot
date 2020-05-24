@@ -3,6 +3,7 @@ package com.kylelovestoad.kylebot.command;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
+import java.util.EnumSet;
 import java.util.List;
 
 public interface ICommand {
@@ -42,7 +43,7 @@ public interface ICommand {
     /**
      * @return A List of Permissions which represent the permissions needed to execute the command
      */
-    default List<Permission> getPermissions() {
-        return List.of();
+    default EnumSet<Permission> getPermissions() {
+        return EnumSet.of(null);
     }
 }

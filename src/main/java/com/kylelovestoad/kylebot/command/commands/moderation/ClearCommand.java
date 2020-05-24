@@ -1,6 +1,5 @@
 package com.kylelovestoad.kylebot.command.commands.moderation;
 
-import com.kylelovestoad.kylebot.Config;
 import com.kylelovestoad.kylebot.command.CommandCategory;
 import com.kylelovestoad.kylebot.command.ICommand;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -12,6 +11,7 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import java.awt.*;
 import java.time.OffsetDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -135,8 +135,8 @@ public class ClearCommand implements ICommand {
     }
 
     @Override
-    public List<Permission> getPermissions() {
-        return List.of(Permission.MESSAGE_MANAGE);
+    public EnumSet<Permission> getPermissions() {
+        return EnumSet.of(Permission.MESSAGE_MANAGE);
     }
 }
 

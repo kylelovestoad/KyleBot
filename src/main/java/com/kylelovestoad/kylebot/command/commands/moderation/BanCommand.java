@@ -11,6 +11,7 @@ import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.awt.*;
+import java.util.EnumSet;
 import java.util.List;
 
 public class BanCommand implements ICommand {
@@ -120,7 +121,7 @@ public class BanCommand implements ICommand {
         return CommandCategory.MODERATION;
     }
 
-    public List<Permission> getPermissions() {
-        return List.of(Permission.BAN_MEMBERS);
+    public EnumSet<Permission> getPermissions() {
+        return EnumSet.of(Permission.BAN_MEMBERS);
     }
 }
