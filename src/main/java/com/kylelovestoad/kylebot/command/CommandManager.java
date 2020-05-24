@@ -1,7 +1,9 @@
 package com.kylelovestoad.kylebot.command;
 
 import com.kylelovestoad.kylebot.Config;
-import com.kylelovestoad.kylebot.command.commands.*;
+import com.kylelovestoad.kylebot.command.commands.fun.*;
+import com.kylelovestoad.kylebot.command.commands.general.*;
+import com.kylelovestoad.kylebot.command.commands.moderation.*;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import org.jetbrains.annotations.NotNull;
 

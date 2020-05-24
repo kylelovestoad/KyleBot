@@ -5,6 +5,7 @@ import com.kylelovestoad.kylebot.command.CommandManager;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.ReadyEvent;
+import net.dv8tion.jda.api.events.guild.member.GuildMemberJoinEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.slf4j.Logger;
@@ -21,7 +22,6 @@ public class Listener extends ListenerAdapter {
 
     @Override
     public void onReady(ReadyEvent event) {
-
         LOGGER.info("{} is ready", event.getJDA().getSelfUser().getAsTag());
         LOGGER.info("Default prefix is set to {}", Config.get("prefix"));
         LOGGER.info("The owner id is {}", Config.get("owner_id"));
