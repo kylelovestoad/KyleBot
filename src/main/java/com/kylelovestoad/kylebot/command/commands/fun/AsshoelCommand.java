@@ -82,4 +82,5 @@ public class AsshoelCommand implements ICommand {
     public CommandCategory getCategory() {
         return CommandCategory.FUN;
     }
+
 }

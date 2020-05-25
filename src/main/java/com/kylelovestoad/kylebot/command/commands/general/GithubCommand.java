@@ -1,6 +1,5 @@
 package com.kylelovestoad.kylebot.command.commands.general;
 
-import com.kylelovestoad.kylebot.Config;
 import com.kylelovestoad.kylebot.command.CommandCategory;
 import com.kylelovestoad.kylebot.command.ICommand;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -10,7 +9,6 @@ import org.eclipse.egit.github.core.Repository;
 import org.eclipse.egit.github.core.service.RepositoryService;
 
 import java.awt.*;
-
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
@@ -74,6 +72,7 @@ public class GithubCommand implements ICommand {
         return CommandCategory.GENERAL;
     }
 
+    @Override
     public List<String> getAliases() {
         return List.of("src", "source", "sourcecode");
     }

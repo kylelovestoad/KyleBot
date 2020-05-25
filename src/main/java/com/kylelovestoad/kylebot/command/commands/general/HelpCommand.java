@@ -84,7 +84,7 @@ public class HelpCommand implements ICommand {
                     embed.addField("Usage:", "`" + Config.get("prefix") + cmd.getName() + cmd.getUsage() + "`", false);
                 }
 
-                if (cmd.getUsage() != null && !cmd.getPermissions().isEmpty()) {
+                if (cmd.getPermissions() != null && !cmd.getPermissions().isEmpty()) {
                     embed.addField("Required Permissions:", "`" + String.join(", ",cmd.getPermissions().toString().replaceAll("[\\[\\]]", "") + "`"), false);
                 }
             }

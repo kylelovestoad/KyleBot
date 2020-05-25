@@ -27,6 +27,7 @@ public interface ICommand {
     String getUsage();
 
     boolean isOwnerCommand();
+
     /**
      *
      * @return A CommandCategory representing the category that the command was placed in
@@ -44,6 +45,6 @@ public interface ICommand {
      * @return A List of Permissions which represent the permissions needed to execute the command
      */
     default EnumSet<Permission> getPermissions() {
-        return EnumSet.of(null);
+        return EnumSet.noneOf(Permission.class);
     }
 }

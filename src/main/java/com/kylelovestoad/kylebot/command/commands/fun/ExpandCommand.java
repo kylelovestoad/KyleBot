@@ -54,4 +54,5 @@ public class ExpandCommand implements ICommand {
     public CommandCategory getCategory() {
         return CommandCategory.FUN;
     }
+
 }

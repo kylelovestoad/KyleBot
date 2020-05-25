@@ -88,4 +88,5 @@ public class OwoifyCommand implements ICommand {
     public CommandCategory getCategory() {
         return CommandCategory.FUN;
     }
+
 }
