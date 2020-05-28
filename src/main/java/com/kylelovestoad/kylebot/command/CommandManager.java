@@ -23,6 +23,7 @@ public class CommandManager {
         addCommand(new AsshoelCommand());
         addCommand(new BanCommand());
         addCommand(new ClearCommand());
+        addCommand(new CreateChannelCommand());
         addCommand(new ExpandCommand());
         addCommand(new GithubCommand());
         addCommand(new HelpCommand(this));
@@ -86,7 +87,7 @@ public class CommandManager {
     public void handle(@NotNull GuildMessageReceivedEvent event) {
 
         String[] split = event.getMessage().getContentRaw()
-                .replaceFirst("(?i)" + Pattern.quote(Config.get("prefix")), "")
+                .replaceFirst("(?i)" + Pattern.quote(Objects.requireNonNull(Config.get("prefix"))), "")
                 .split("\\s+");
 
         String invoke = split[0].toLowerCase();
@@ -97,10 +98,9 @@ public class CommandManager {
             event.getChannel().sendTyping().queue();
             List<String> args = Arrays.asList(split).subList(1, split.length);
 
-            if(cmd.isOwnerCommand() && !Objects.requireNonNull(event.getMember()).getId().equals(Config.get("owner_id"))){
+            if (cmd.isOwnerCommand() && !Objects.requireNonNull(event.getMember()).getId().equals(Config.get("owner_id"))) {
                 return;
             }
-
 
             if (!Objects.requireNonNull(event.getMember()).hasPermission(cmd.getPermissions())) {
                 event.getChannel().sendMessage("You can't do that shit.").queue();
@@ -111,6 +111,7 @@ public class CommandManager {
                 event.getChannel().sendMessage("I can't do that shit.").queue();
                 return;
             }
+
 
             cmd.handle(event, args);
         }
