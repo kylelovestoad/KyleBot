@@ -28,7 +28,6 @@ public class ClearCommand implements ICommand {
 
         if (args.isEmpty()) {
 
-            // Not putting any args
             final EmbedBuilder embed = new EmbedBuilder()
                     .setTitle("What are you doing?")
                     .setDescription("❌ Imagine not putting any arguments")
@@ -116,7 +115,7 @@ public class ClearCommand implements ICommand {
 
     @Override
     public String getUsage() {
-        return " <amount>";
+        return "<amount>";
     }
 
     @Override

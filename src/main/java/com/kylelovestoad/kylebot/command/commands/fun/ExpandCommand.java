@@ -42,7 +42,7 @@ public class ExpandCommand implements ICommand {
 
     @Override
     public String getUsage() {
-        return " <text>";
+        return "<text>";
     }
 
     @Override

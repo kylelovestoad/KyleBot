@@ -108,7 +108,7 @@ public class BanCommand implements ICommand {
 
     @Override
     public String getUsage() {
-        return " <user mention> <reason>";
+        return "<user mention> <reason>";
     }
 
     @Override

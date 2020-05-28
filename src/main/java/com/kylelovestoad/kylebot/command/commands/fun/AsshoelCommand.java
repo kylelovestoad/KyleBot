@@ -70,7 +70,7 @@ public class AsshoelCommand implements ICommand {
 
     @Override
     public String getUsage() {
-        return " <user mention>";
+        return "<user mention>";
     }
 
     @Override

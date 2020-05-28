@@ -30,10 +30,8 @@ public class HelpCommand implements ICommand {
                     .setTitle("KyleBot Command List")
                     .setColor(Color.BLUE);
 
-            for (CommandCategory categories : CommandCategory.getNonHiddenCategories()) {
-                embed.addField(categories.name().substring(0, 1).toUpperCase()
-                        + categories.name().substring(1).toLowerCase(), "`" + Config.get("prefix") + this.getName() + " " + categories.name().toLowerCase() + "`", true);
-            }
+            CommandCategory.getNonHiddenCategories().forEach(category ->
+                    embed.addField(category.name().substring(0, 1).toUpperCase() + category.name().substring(1).toLowerCase(), "`" + Config.get("prefix") + this.getName() + " " + category.name().toLowerCase() + "`", true));
 
             channel.sendMessage(embed.build()).queue();
             return;
@@ -65,9 +63,8 @@ public class HelpCommand implements ICommand {
                 embed.setTitle(search.substring(0, 1).toUpperCase() + search.substring(1))
                         .setColor(Color.BLUE);
 
-                for (ICommand command : manager.filterCommandsByCategory(CommandCategory.fromKey(search))) {
-                    embed.addField(Config.get("prefix") + command.getName(), command.getHelp(), false);
-                }
+                manager.filterCommandsByCategory(CommandCategory.fromKey(search)).forEach(command ->
+                        embed.addField(Config.get("prefix") + command.getName(), command.getHelp(), false));
 
             } else {
 
@@ -81,11 +78,11 @@ public class HelpCommand implements ICommand {
                 }
 
                 if (cmd.getUsage() != null) {
-                    embed.addField("Usage:", "`" + Config.get("prefix") + cmd.getName() + cmd.getUsage() + "`", false);
+                    embed.addField("Usage:", "`" + Config.get("prefix") + cmd.getName() + " " + cmd.getUsage() + "`", false);
                 }
 
                 if (cmd.getPermissions() != null && !cmd.getPermissions().isEmpty()) {
-                    embed.addField("Required Permissions:", "`" + String.join(", ",cmd.getPermissions().toString().replaceAll("[\\[\\]]", "") + "`"), false);
+                    embed.addField("Required Permissions:", "`" + String.join(", ", cmd.getPermissions().toString().replaceAll("[\\[\\]]", "") + "`"), false);
                 }
             }
 
