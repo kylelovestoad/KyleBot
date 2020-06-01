@@ -8,9 +8,9 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class CommandManager {
@@ -44,7 +44,7 @@ public class CommandManager {
         boolean duplicateName = this.commands.stream().anyMatch((ICommand it) -> it.getName().equalsIgnoreCase(cmd.getName()));
 
         if (duplicateName) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Duplicate command name found");
         }
 
         commands.add(cmd);
@@ -72,6 +72,10 @@ public class CommandManager {
         return null;
     }
 
+    /**
+     * @param category The current category
+     * @return A list of commands that are in the category
+     */
     public List<ICommand> filterCommandsByCategory(CommandCategory category) {
         List<ICommand> filteredCommands = new ArrayList<>();
         this.commands.stream()
@@ -86,33 +90,40 @@ public class CommandManager {
      */
     public void handle(@NotNull GuildMessageReceivedEvent event) {
 
-        String[] split = event.getMessage().getContentRaw()
-                .replaceFirst("(?i)" + Pattern.quote(Objects.requireNonNull(Config.get("prefix"))), "")
-                .split("\\s+");
+        // Creates a list that has all words in the message separated by whitespace. Also gets words that are surrounded by quotes.
+        List<String> split = new ArrayList<>();
+        Matcher m = Pattern.compile("([^\"]\\S*|\".+?\")\\s*").matcher(event.getMessage().getContentRaw()
+                .replaceFirst("(?i)" + Pattern.quote(Objects.requireNonNull(Config.get("prefix"))), "").trim());
+        while (m.find()) {
+            split.add(m.group(1).replace("\"", ""));
+        }
 
-        String invoke = split[0].toLowerCase();
+        String invoke = split.get(0).toLowerCase();
         ICommand cmd = this.getCommand(invoke);
 
         if (cmd != null) {
 
             event.getChannel().sendTyping().queue();
-            List<String> args = Arrays.asList(split).subList(1, split.length);
+            List<String> args = split.subList(1, split.size());
 
+            // If the command is an owner command, it checks if the user has the owner id
             if (cmd.isOwnerCommand() && !Objects.requireNonNull(event.getMember()).getId().equals(Config.get("owner_id"))) {
                 return;
             }
 
+            // If the command needs permissions, it checks if the user has the required permissions
             if (!Objects.requireNonNull(event.getMember()).hasPermission(cmd.getPermissions())) {
                 event.getChannel().sendMessage("You can't do that shit.").queue();
                 return;
             }
 
+            // If the command needs permissions, it checks if the bot has the required permissions
             if (!event.getGuild().getSelfMember().hasPermission(cmd.getPermissions())) {
                 event.getChannel().sendMessage("I can't do that shit.").queue();
                 return;
             }
 
-
+            // This executes the command
             cmd.handle(event, args);
         }
     }
