@@ -6,6 +6,9 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import java.util.EnumSet;
 import java.util.List;
 
+/**
+ * Interface which implements all of the properties of a command
+ */
 public interface ICommand {
 
     void handle(GuildMessageReceivedEvent event, List<String> args);
