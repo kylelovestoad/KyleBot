@@ -4,6 +4,7 @@ import com.kylelovestoad.kylebot.Config;
 import com.kylelovestoad.kylebot.command.CommandCategory;
 import com.kylelovestoad.kylebot.command.CommandManager;
 import com.kylelovestoad.kylebot.command.ICommand;
+import com.kylelovestoad.kylebot.command.PrefixManager;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
@@ -24,6 +25,8 @@ public class HelpCommand implements ICommand {
 
         TextChannel channel = event.getChannel();
 
+        String prefix = PrefixManager.getInstance().getGuildPrefix(event);
+
         if (args.isEmpty()) {
 
             EmbedBuilder embed = new EmbedBuilder()
@@ -31,7 +34,7 @@ public class HelpCommand implements ICommand {
                     .setColor(Color.BLUE);
 
             CommandCategory.getNonHiddenCategories().forEach(category ->
-                    embed.addField(category.name().substring(0, 1).toUpperCase() + category.name().substring(1).toLowerCase(), "`" + Config.get("prefix") + this.getName() + " " + category.name().toLowerCase() + "`", true));
+                    embed.addField(category.name().substring(0, 1).toUpperCase() + category.name().substring(1).toLowerCase(), "`" + prefix + this.getName() + " " + category.name().toLowerCase() + "`", true));
 
             channel.sendMessage(embed.build()).queue();
             return;
@@ -64,7 +67,7 @@ public class HelpCommand implements ICommand {
                         .setColor(Color.BLUE);
 
                 manager.filterCommandsByCategory(CommandCategory.fromKey(search)).forEach(command ->
-                        embed.addField(Config.get("prefix") + command.getName(), command.getHelp(), false));
+                        embed.addField(prefix + command.getName(), command.getHelp(), false));
 
             } else {
 
@@ -78,7 +81,7 @@ public class HelpCommand implements ICommand {
                 }
 
                 if (cmd.getUsage() != null) {
-                    embed.addField("Usage:", "`" + Config.get("prefix") + cmd.getName() + " " + cmd.getUsage() + "`", false);
+                    embed.addField("Usage:", "`" + prefix + cmd.getName() + " " + cmd.getUsage() + "`", false);
                 }
 
                 if (cmd.getPermissions() != null && !cmd.getPermissions().isEmpty()) {

@@ -2,6 +2,7 @@ package com.kylelovestoad.kylebot;
 
 
 import com.kylelovestoad.kylebot.command.CommandManager;
+import com.kylelovestoad.kylebot.command.PrefixManager;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.ReadyEvent;
@@ -23,7 +24,7 @@ public class Listener extends ListenerAdapter {
     @Override
     public void onReady(ReadyEvent event) {
         LOGGER.info("{} is ready", event.getJDA().getSelfUser().getAsTag());
-        LOGGER.info("Default prefix is set to {}", Config.get("prefix"));
+        LOGGER.info("Default prefix is set to {}", Config.get("default_prefix"));
         LOGGER.info("The owner id is {}", Config.get("owner_id"));
     }
 
@@ -31,7 +32,8 @@ public class Listener extends ListenerAdapter {
     public void onGuildMessageReceived(@Nonnull GuildMessageReceivedEvent event) {
 
         User user = event.getAuthor();
-        Message message = event.getMessage();
+        long guildId = event.getGuild().getIdLong();
+        String prefix = PrefixManager.getInstance().getGuildPrefix(guildId);
         String raw = event.getMessage().getContentRaw();
 
         if (user.isBot() || event.isWebhookMessage()) {
@@ -39,7 +41,7 @@ public class Listener extends ListenerAdapter {
         }
 
 
-        if (raw.equalsIgnoreCase(Config.get("prefix") + "shutdown")
+        if (raw.equalsIgnoreCase(prefix + "shutdown")
                 && user.getId().equals(Config.get("owner_id"))) {
             LOGGER.info("Shutting down...");
             event.getJDA().shutdown();
@@ -47,9 +49,9 @@ public class Listener extends ListenerAdapter {
             return;
         }
 
-        if (raw.startsWith(Config.get("prefix"))) {
+        if (raw.startsWith(prefix)) {
             LOGGER.info(event.getGuild().getName() + "/" + event.getChannel().getName() + " (" + event.getAuthor().getName() + ") " + event.getMessage().getContentRaw());
-            manager.handle(event);
+            manager.handle(event, prefix);
         }
     }
 }

@@ -1,13 +1,3 @@
-/**
- * ---------------------------------------------------------------------------
- *
- * @author Kyle Richards
- * @version 1.1.0
- * @since April 15, 2020
- * <p>
- * KyleBot is a really awesome discord bot created as a hobby.
- * ---------------------------------------------------------------------------
- */
 package com.kylelovestoad.kylebot;
 
 import net.dv8tion.jda.api.JDABuilder;
@@ -22,6 +12,16 @@ import java.util.EnumSet;
 
 import static net.dv8tion.jda.api.requests.GatewayIntent.*;
 
+/**
+ * ---------------------------------------------------------------------------
+ *
+ * @author Kyle Richards
+ * @version 1.1.0
+ * @since April 15, 2020
+ * <p>
+ * KyleBot is a really awesome discord bot created as a hobby.
+ * ---------------------------------------------------------------------------
+ */
 public class Bot {
 
     /**
