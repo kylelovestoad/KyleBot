@@ -32,6 +32,8 @@ public class CreateChannelCommand implements ICommand {
 
         }
 
+        String channelName = args.get(0);
+
         if (args.size() == 1) {
 
             final EmbedBuilder embed = new EmbedBuilder()
@@ -43,21 +45,23 @@ public class CreateChannelCommand implements ICommand {
             return;
         }
 
-        if (args.get(1).equalsIgnoreCase("text")) {
-            Objects.requireNonNull(channel.getParent()).createTextChannel(args.get(0)).queue();
-            channel.sendMessageFormat("Created a `text` channel called `%s`", args.get(0)).queue(message -> message.delete().queueAfter(10, TimeUnit.SECONDS));
+        String channelType = args.get(1);
+
+        if (channelType.equalsIgnoreCase("text")) {
+            Objects.requireNonNull(channel.getParent()).createTextChannel(channelName).queue();
+            channel.sendMessageFormat("Created a `text` channel called `%s`", channelName).queue(message -> message.delete().queueAfter(10, TimeUnit.SECONDS));
             return;
         }
 
-        if (args.get(1).equalsIgnoreCase("voice")) {
+        if (channelType.equalsIgnoreCase("voice")) {
             Objects.requireNonNull(channel.getParent()).createVoiceChannel(args.get(0)).queue();
-            channel.sendMessageFormat("Created a `voice` channel called `%s`", args.get(0)).queue(message -> message.delete().queueAfter(10, TimeUnit.SECONDS));
+            channel.sendMessageFormat("Created a `voice` channel called `%s`", channelName).queue(message -> message.delete().queueAfter(10, TimeUnit.SECONDS));
             return;
         }
 
         final EmbedBuilder embed = new EmbedBuilder()
                 .setTitle("I cannot believe this")
-                .setDescription("❌ `" + args.get(1) + "` is not a valid channel type. Choose `voice` or `text`")
+                .setDescription("❌ `" + channelType + "` is not a valid channel type. Choose `voice` or `text`")
                 .setColor(Color.RED);
 
         channel.sendMessage(embed.build()).queue();

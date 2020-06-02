@@ -14,8 +14,7 @@ public class PingCommand implements ICommand {
 
         JDA jda = event.getJDA();
 
-        jda.getRestPing().queue(
-                (Long ping) -> event.getChannel()
+        jda.getRestPing().queue((ping) -> event.getChannel()
                         .sendMessageFormat("Reset ping: %sms\nWS ping: %sms", ping, jda.getGatewayPing()).queue());
     }
 

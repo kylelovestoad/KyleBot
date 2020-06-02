@@ -22,12 +22,16 @@ public class DeleteChannelCommand implements ICommand {
             return;
         }
 
+        String channelName = args.get(0);
+
         if (args.size() == 1) {
-            guild.getChannels().stream().filter(c -> c.getName().equals(args.get(0))).forEach(c -> c.delete().queue());
+            guild.getChannels().stream().filter(c -> c.getName().equals(channelName)).forEach(c -> c.delete().queue());
             return;
         }
 
-        guild.getCategoriesByName(args.get(1), true).forEach(category -> category.getChannels().stream().filter(c -> c.getName().equals(args.get(0))).forEach(c -> c.delete().queue()));
+        String categoryName = args.get(1);
+
+        guild.getCategoriesByName(categoryName, true).forEach(category -> category.getChannels().stream().filter(c -> c.getName().equals(args.get(0))).forEach(c -> c.delete().queue()));
 
     }
 
