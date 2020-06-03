@@ -1,6 +1,5 @@
 package com.kylelovestoad.kylebot.command.commands.general;
 
-import com.kylelovestoad.kylebot.Config;
 import com.kylelovestoad.kylebot.command.CommandCategory;
 import com.kylelovestoad.kylebot.command.CommandManager;
 import com.kylelovestoad.kylebot.command.ICommand;
@@ -25,7 +24,9 @@ public class HelpCommand implements ICommand {
 
         TextChannel channel = event.getChannel();
 
-        String prefix = PrefixManager.getInstance().getGuildPrefix(event);
+        Long guildId = event.getGuild().getIdLong();
+
+        String prefix = PrefixManager.getInstance().getMap().computeIfAbsent(guildId, PrefixManager::getPrefix);
 
         if (args.isEmpty()) {
 

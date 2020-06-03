@@ -1,5 +1,6 @@
 package com.kylelovestoad.kylebot;
 
+import com.kylelovestoad.kylebot.database.SQLiteDataSource;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
@@ -8,6 +9,7 @@ import net.dv8tion.jda.api.utils.cache.CacheFlag;
 
 import javax.security.auth.login.LoginException;
 
+import java.sql.SQLException;
 import java.util.EnumSet;
 
 import static net.dv8tion.jda.api.requests.GatewayIntent.*;
@@ -29,7 +31,9 @@ public class Bot {
      *
      * @throws LoginException If the login fails
      */
-    private Bot() throws LoginException {
+    private Bot() throws LoginException, SQLException {
+
+        SQLiteDataSource.getConnection();
 
         JDABuilder.create(Config.get("token"), EnumSet.of(
                 GatewayIntent.GUILD_PRESENCES,
@@ -51,7 +55,7 @@ public class Bot {
     /**
      * Instantiation of the utility class Bot
      */
-    public static void main(String[] args) throws LoginException {
+    public static void main(String[] args) throws LoginException, SQLException {
         new Bot();
     }
 }

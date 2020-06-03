@@ -3,10 +3,8 @@ package com.kylelovestoad.kylebot;
 
 import com.kylelovestoad.kylebot.command.CommandManager;
 import com.kylelovestoad.kylebot.command.PrefixManager;
-import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.ReadyEvent;
-import net.dv8tion.jda.api.events.guild.member.GuildMemberJoinEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.slf4j.Logger;
@@ -33,7 +31,9 @@ public class Listener extends ListenerAdapter {
 
         User user = event.getAuthor();
         long guildId = event.getGuild().getIdLong();
-        String prefix = PrefixManager.getInstance().getGuildPrefix(guildId);
+
+        // Gets prefix from the database
+        String prefix = PrefixManager.getInstance().getMap().computeIfAbsent(guildId, PrefixManager::getPrefix);
         String raw = event.getMessage().getContentRaw();
 
         if (user.isBot() || event.isWebhookMessage()) {
