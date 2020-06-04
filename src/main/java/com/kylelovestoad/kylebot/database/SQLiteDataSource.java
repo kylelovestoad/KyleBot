@@ -16,11 +16,15 @@ public class SQLiteDataSource {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SQLiteDataSource.class);
     private static final HikariConfig CONFIG = new HikariConfig();
-    private static final HikariDataSource DS;
+    private static final HikariDataSource POOL;
 
     static {
+
+        String path = "src/main/java/com/kylelovestoad/kylebot/database/database.db";
+
+
         try {
-            final File dbFile = new File("src/main/resources/database.db");
+            final File dbFile = new File(path);
 
             if (!dbFile.exists()) {
                 if (dbFile.createNewFile()) {
@@ -34,14 +38,23 @@ public class SQLiteDataSource {
         }
 
 
-        CONFIG.setJdbcUrl("jdbc:sqlite:src/main/resources/database.db");
+        CONFIG.setJdbcUrl("jdbc:sqlite:" + path);
         CONFIG.setConnectionTestQuery("SELECT 1");
+        CONFIG.setMinimumIdle(5);
+        CONFIG.setMaximumPoolSize(50);
+        CONFIG.setConnectionTimeout(10000);
+        CONFIG.setIdleTimeout(600000);
+        CONFIG.setMaxLifetime(1800000);
         CONFIG.addDataSourceProperty("cachePrepStmts", "true");
         CONFIG.addDataSourceProperty("prepStmtCacheSize", "250");
         CONFIG.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
-        DS = new HikariDataSource(CONFIG);
+        POOL = new HikariDataSource(CONFIG);
 
-        try (final Statement statement = getConnection().createStatement()) {
+
+        try (final Connection connection = getConnection();
+             final Statement statement = connection.createStatement()) {
+
+
 
             final String defaultPrefix = Config.get("default_prefix");
 
@@ -52,7 +65,10 @@ public class SQLiteDataSource {
                     "prefix VARCHAR(255) NOT NULL DEFAULT '" + defaultPrefix + "'" +
                     ");");
 
+            connection.close();
+
             LOGGER.info("Initialized Table");
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -61,7 +77,7 @@ public class SQLiteDataSource {
     private SQLiteDataSource() {}
 
     public static Connection getConnection() throws SQLException {
-        return DS.getConnection();
+        return POOL.getConnection();
     }
 
 }

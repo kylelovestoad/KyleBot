@@ -2,13 +2,18 @@ package com.kylelovestoad.kylebot.command;
 
 import com.kylelovestoad.kylebot.Config;
 import com.kylelovestoad.kylebot.database.SQLiteDataSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+
 public class PrefixManager {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(PrefixManager.class);
     private static PrefixManager instance = null;
     private PrefixManager() {}
 
@@ -30,8 +35,8 @@ public class PrefixManager {
      */
     public static String getPrefix(long guildId) {
 
-        try (final PreparedStatement preparedStatement = SQLiteDataSource
-                .getConnection()
+        try (final Connection connection = SQLiteDataSource.getConnection();
+                final PreparedStatement preparedStatement = connection
                 // Language = SQLite
                 .prepareStatement("SELECT prefix FROM guild_settings WHERE guild_id = ?")) {
 
@@ -52,6 +57,8 @@ public class PrefixManager {
                 insertStatement.execute();
             }
 
+            connection.close();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -67,8 +74,8 @@ public class PrefixManager {
      */
     public static void updatePrefix(Long guildId, String newPrefix) {
 
-        try(final PreparedStatement preparedStatement = SQLiteDataSource
-                .getConnection()
+        try(final Connection connection = SQLiteDataSource.getConnection();
+            final PreparedStatement preparedStatement = connection
                 // Language = SQLite
                 .prepareStatement("UPDATE guild_settings SET prefix = ? WHERE guild_id = ?")) {
 
@@ -76,6 +83,10 @@ public class PrefixManager {
             preparedStatement.setString(2, String.valueOf(guildId));
 
             preparedStatement.executeUpdate();
+
+            connection.close();
+
+            LOGGER.info("Set prefix to " + newPrefix + " for " + guildId);
 
         } catch (SQLException e) {
             e.printStackTrace();
