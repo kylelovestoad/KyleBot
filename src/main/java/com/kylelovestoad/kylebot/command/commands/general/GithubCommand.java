@@ -20,11 +20,11 @@ public class GithubCommand implements ICommand {
 
         TextChannel channel = event.getChannel();
 
+        String repoOwner = "kylelovestoad";
+        String repoName = "KyleBot";
         String repoDescription;
         String repoHtmlUrl;
         Date repoUpdatedOn;
-        String repoOwner = "kylelovestoad";
-        String repoName = "KyleBot";
         RepositoryService service = new RepositoryService();
         try {
             Repository repo = service.getRepository(repoOwner, repoName);
@@ -41,7 +41,7 @@ public class GithubCommand implements ICommand {
                 .setTitle("KyleBot Repository")
                 .addField("Description: ", repoDescription, false)
                 .addField("URL: ", repoHtmlUrl, false)
-                .addField("Updated On: ", repoUpdatedOn.toString(), false)
+                .addField("Last Updated On: ", repoUpdatedOn.toString(), false)
                 .setThumbnail("https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png")
                 .setColor(Color.BLUE);
 

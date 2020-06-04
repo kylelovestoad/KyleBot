@@ -18,9 +18,7 @@ public class ExpandCommand implements ICommand {
         if (args.isEmpty()) {
 
             final EmbedBuilder embed = new EmbedBuilder()
-                    .setTitle("This is the saddest display I've ever seen")
                     .setDescription("❌ You have to actually put text to expand")
-                    .setFooter("Bro")
                     .setColor(Color.RED);
 
             channel.sendMessage(embed.build()).queue();

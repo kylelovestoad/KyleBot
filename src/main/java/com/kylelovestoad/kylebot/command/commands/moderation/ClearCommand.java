@@ -29,9 +29,7 @@ public class ClearCommand implements ICommand {
         if (args.isEmpty()) {
 
             final EmbedBuilder embed = new EmbedBuilder()
-                    .setTitle("What are you doing?")
                     .setDescription("❌ Imagine not putting any arguments")
-                    .setFooter("This is a bruh moment")
                     .setColor(Color.RED);
 
             channel.sendMessage(embed.build()).queue();

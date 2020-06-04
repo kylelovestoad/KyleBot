@@ -27,9 +27,7 @@ public class KickCommand implements ICommand {
         if (args.isEmpty()) {
 
             final EmbedBuilder embed = new EmbedBuilder()
-                    .setTitle("WRONG")
                     .setDescription("❌ Imagine not putting any arguments")
-                    .setFooter("Æ")
                     .setColor(Color.RED);
 
             channel.sendMessage(embed.build()).queue();
@@ -42,7 +40,6 @@ public class KickCommand implements ICommand {
         if (message.getMentionedMembers().isEmpty()) {
 
             final EmbedBuilder embed = new EmbedBuilder()
-                    .setTitle("AAAAAAAAAAAAAAAAAAAA")
                     .setDescription("❌ You've gotta mention someone")
                     .setColor(Color.RED);
 
@@ -57,6 +54,8 @@ public class KickCommand implements ICommand {
             channel.sendMessage("I can't do that shit because that user has a role higher than or the same as my role.").queue();
             return;
         }
+
+
 
         if (args.size() >= 2) {
 
@@ -96,6 +95,7 @@ public class KickCommand implements ICommand {
 
         }
     }
+
 
     @Override
     public String getName() {

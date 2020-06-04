@@ -23,7 +23,11 @@ public class PrefixManager {
         return instance;
     }
 
-
+    /**
+     *
+     * @param guildId The guild's id
+     * @return a String representing the prefix that comes before a command
+     */
     public static String getPrefix(long guildId) {
 
         try (final PreparedStatement preparedStatement = SQLiteDataSource
@@ -55,6 +59,12 @@ public class PrefixManager {
         return Config.get("default_prefix");
     }
 
+
+    /**
+     *
+     * @param guildId The guild's id
+     * @param newPrefix The prefix that is replacing the original prefix.
+     */
     public static void updatePrefix(Long guildId, String newPrefix) {
 
         try(final PreparedStatement preparedStatement = SQLiteDataSource

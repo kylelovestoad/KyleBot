@@ -18,9 +18,7 @@ public class OwoifyCommand implements ICommand {
         if (args.isEmpty()) {
 
             final EmbedBuilder embed = new EmbedBuilder()
-                    .setTitle("Nice job")
                     .setDescription("❌ Very awesome that you didn't put text to owoify")
-                    .setFooter("...")
                     .setColor(Color.RED);
 
             channel.sendMessage(embed.build()).queue();

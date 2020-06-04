@@ -37,7 +37,6 @@ public class CreateChannelCommand implements ICommand {
         if (args.size() == 1) {
 
             final EmbedBuilder embed = new EmbedBuilder()
-                    .setTitle("Wow")
                     .setDescription("❌ That's crazy that you didn't specify whether it was a `voice`, or a `text` channel")
                     .setColor(Color.RED);
 

@@ -86,9 +86,7 @@ public class BanCommand implements ICommand {
                     .queue();
 
             final EmbedBuilder embed = new EmbedBuilder()
-                    .setTitle("SUCCESS")
                     .setDescription("Banned " + target.getEffectiveName() + " from the server permanently for " + reason)
-                    .setFooter("Goodbye")
                     .setColor(Color.BLUE);
 
             channel.sendMessage(embed.build()).queue();

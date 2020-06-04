@@ -3,22 +3,31 @@ package com.kylelovestoad.kylebot.command.commands.moderation;
 import com.kylelovestoad.kylebot.command.CommandCategory;
 import com.kylelovestoad.kylebot.command.ICommand;
 import com.kylelovestoad.kylebot.command.PrefixManager;
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
+import java.awt.*;
 import java.util.EnumSet;
 import java.util.List;
 
 public class SetPrefixCommand implements ICommand {
+
     @Override
     public void handle(GuildMessageReceivedEvent event, List<String> args) {
 
-        Long guildId = event.getGuild().getIdLong();
+        long guildId = event.getGuild().getIdLong();
 
         TextChannel channel = event.getChannel();
 
         if (args.isEmpty()) {
+
+            EmbedBuilder embed = new EmbedBuilder()
+                    .setDescription("❌ You have to actually put a prefix that you want to set")
+                    .setColor(Color.RED);
+
+            channel.sendMessage(embed.build()).queue();
             return;
         }
 
