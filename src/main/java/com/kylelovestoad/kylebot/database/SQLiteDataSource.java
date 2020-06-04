@@ -20,7 +20,7 @@ public class SQLiteDataSource {
 
     static {
         try {
-            final File dbFile = new File("src/main/resources");
+            final File dbFile = new File("src/main/resources/database.db");
 
             if (!dbFile.exists()) {
                 if (dbFile.createNewFile()) {
@@ -48,7 +48,7 @@ public class SQLiteDataSource {
             // Language = SQLite
             statement.execute("CREATE TABLE IF NOT EXISTS guild_settings (" +
                     "id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                    "guildId VARCHAR(20) NOT NULL," +
+                    "guild_id VARCHAR(20) NOT NULL," +
                     "prefix VARCHAR(255) NOT NULL DEFAULT '" + defaultPrefix + "'" +
                     ");");
 
