@@ -30,6 +30,7 @@ public class CommandManager {
         addCommand(new AsshoelCommand());
         addCommand(new BanCommand());
         addCommand(new ClearCommand());
+        addCommand(new DeleteChannelCommand());
         addCommand(new CreateChannelCommand());
         addCommand(new ExpandCommand());
         addCommand(new GithubCommand());
