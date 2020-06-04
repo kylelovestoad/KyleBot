@@ -24,9 +24,9 @@ public class SetPrefixCommand implements ICommand {
 
         String newPrefix = args.get(0);
 
-        PrefixManager.getInstance().getMap().put(guildId, newPrefix);
-
         channel.sendMessageFormat("Set prefix to `%s`", newPrefix).queue();
+
+        PrefixManager.updatePrefix(guildId, newPrefix);
     }
 
     @Override

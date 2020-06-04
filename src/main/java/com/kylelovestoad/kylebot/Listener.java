@@ -33,7 +33,9 @@ public class Listener extends ListenerAdapter {
 
         User user = event.getAuthor();
         long guildId = event.getGuild().getIdLong();
-        String prefix = PrefixManager.getInstance().getGuildPrefix(guildId);
+
+        // Gets prefix from the database
+        String prefix = PrefixManager.getPrefix(guildId);
         String raw = event.getMessage().getContentRaw();
 
         if (user.isBot() || event.isWebhookMessage()) {

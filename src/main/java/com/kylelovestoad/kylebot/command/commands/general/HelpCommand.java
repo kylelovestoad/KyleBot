@@ -25,7 +25,9 @@ public class HelpCommand implements ICommand {
 
         TextChannel channel = event.getChannel();
 
-        String prefix = PrefixManager.getInstance().getGuildPrefix(event);
+        long guildId = event.getGuild().getIdLong();
+
+        String prefix = PrefixManager.getPrefix(guildId);
 
         if (args.isEmpty()) {
 

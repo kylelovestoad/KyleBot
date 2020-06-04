@@ -109,6 +109,7 @@ public class CommandManager {
         String invoke = split.get(0).toLowerCase();
         ICommand cmd = this.getCommand(invoke);
 
+        // If the command exists
         if (cmd != null) {
 
             Guild guild = event.getGuild();
