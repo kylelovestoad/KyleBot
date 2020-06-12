@@ -2,7 +2,7 @@ package com.kylelovestoad.kylebot.command.commands.moderation;
 
 import com.kylelovestoad.kylebot.command.CommandCategory;
 import com.kylelovestoad.kylebot.command.ICommand;
-import com.kylelovestoad.kylebot.command.PrefixManager;
+import com.kylelovestoad.kylebot.command.SettingsManager;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -35,7 +35,7 @@ public class SetPrefixCommand implements ICommand {
 
         channel.sendMessageFormat("Set prefix to `%s`", newPrefix).queue();
 
-        PrefixManager.updatePrefix(guildId, newPrefix);
+        SettingsManager.getInstance().set("prefix", newPrefix , guildId);
     }
 
     @Override

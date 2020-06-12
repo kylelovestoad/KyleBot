@@ -2,7 +2,6 @@ package com.kylelovestoad.kylebot.command.commands.moderation;
 
 import com.kylelovestoad.kylebot.command.CommandCategory;
 import com.kylelovestoad.kylebot.command.ICommand;
-import com.kylelovestoad.kylebot.command.PrefixManager;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.TextChannel;

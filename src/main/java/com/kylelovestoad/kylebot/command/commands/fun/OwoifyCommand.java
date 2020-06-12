@@ -59,7 +59,7 @@ public class OwoifyCommand implements ICommand {
         }
 
 
-        channel.sendMessage(p + " " + String.join(" ", args.subList(0,args.size())).replaceAll("[rl]", "w") + " " + s).queue();
+        channel.sendMessage(p + " " + String.join(" ", args.subList(0,args.size())).replaceAll("[lr]", "w") + " " + s).queue();
     }
 
     @Override

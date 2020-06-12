@@ -1,10 +1,9 @@
 package com.kylelovestoad.kylebot.command.commands.general;
 
-import com.kylelovestoad.kylebot.Config;
 import com.kylelovestoad.kylebot.command.CommandCategory;
 import com.kylelovestoad.kylebot.command.CommandManager;
 import com.kylelovestoad.kylebot.command.ICommand;
-import com.kylelovestoad.kylebot.command.PrefixManager;
+import com.kylelovestoad.kylebot.command.SettingsManager;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
@@ -25,9 +24,9 @@ public class HelpCommand implements ICommand {
 
         TextChannel channel = event.getChannel();
 
-        long guildId = event.getGuild().getIdLong();
+        Long guildId = event.getGuild().getIdLong();
 
-        String prefix = PrefixManager.getPrefix(guildId);
+        String prefix = SettingsManager.getInstance().get("prefix", guildId).toString();
 
         if (args.isEmpty()) {
 

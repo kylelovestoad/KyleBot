@@ -2,9 +2,11 @@ package com.kylelovestoad.kylebot.command;
 
 import com.kylelovestoad.kylebot.Config;
 import com.kylelovestoad.kylebot.command.commands.fun.*;
-import com.kylelovestoad.kylebot.command.commands.general.*;
+import com.kylelovestoad.kylebot.command.commands.general.GithubCommand;
+import com.kylelovestoad.kylebot.command.commands.general.HelpCommand;
+import com.kylelovestoad.kylebot.command.commands.general.InfoCommand;
+import com.kylelovestoad.kylebot.command.commands.general.PingCommand;
 import com.kylelovestoad.kylebot.command.commands.moderation.*;
-import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -36,6 +38,7 @@ public class CommandManager {
         addCommand(new GithubCommand());
         addCommand(new HelpCommand(this));
         addCommand(new InfoCommand());
+        addCommand(new MuteCommand());
         addCommand(new KickCommand());
         addCommand(new NoSirCommand());
         addCommand(new OwoifyCommand());
