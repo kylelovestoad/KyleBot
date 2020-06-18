@@ -26,7 +26,7 @@ public class HelpCommand implements ICommand {
 
         Long guildId = event.getGuild().getIdLong();
 
-        String prefix = SettingsManager.getInstance().get("prefix", guildId).toString();
+        String prefix = SettingsManager.getInstance().get("prefix", "guild_id",  guildId).toString();
 
         if (args.isEmpty()) {
 

@@ -34,15 +34,17 @@ public class SettingsManager {
     }
 
 
-    public void set(String column, Object newValue, Long guildId) {
+    public void set(String column, Object newValue, String conditionColumn, Object condition) {
+
+        String regex = "[^A-Za-z_]";
 
         try (final Connection connection = SQLiteDataSource.getConnection();
              final PreparedStatement preparedStatement = connection
                      // Language = SQLite
-                     .prepareStatement("UPDATE guild_settings SET " + column.replaceAll("[\"';\\- ]", "") + " = ? WHERE guild_id = ?")) {
+                     .prepareStatement("UPDATE guild_settings SET " + column.replaceAll(regex, "") + " = ? WHERE " + conditionColumn + " = ?")) {
 
             preparedStatement.setObject(1, newValue);
-            preparedStatement.setLong(2, guildId);
+            preparedStatement.setObject(2, condition);
 
             preparedStatement.executeUpdate();
 
@@ -55,15 +57,18 @@ public class SettingsManager {
 
     }
 
-    public Object get(String column, Object guildId) {
+    public Object get(String column, String conditionColumn, Object condition) {
+
+        String regex = "[^A-Za-z_]";
+
         try (final Connection connection = SQLiteDataSource.getConnection();
              PreparedStatement preparedStatement = connection
                      // Language = SQLite
-                     .prepareStatement("SELECT " + column.replaceAll("[\"';\\- ]", "")
-                             + " FROM guild_settings WHERE guild_id = ? ORDER BY id")) {
+                     .prepareStatement("SELECT " + column.replaceAll(regex, "")
+                             + " FROM guild_settings WHERE " + conditionColumn + " = ?")) {
 
 
-            preparedStatement.setString(1, String.valueOf(guildId));
+            preparedStatement.setObject(1, condition);
 
             try (final ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
@@ -73,9 +78,9 @@ public class SettingsManager {
 
             try (final PreparedStatement insertStatement = connection
                     // Language = SQLite
-                    .prepareStatement("INSERT INTO guild_settings(guild_id) VALUES(?)")) {
+                    .prepareStatement("INSERT INTO guild_settings(" + conditionColumn + ") VALUES(?)")) {
 
-                insertStatement.setString(1, String.valueOf(guildId));
+                insertStatement.setObject(1, condition);
 
                 insertStatement.execute();
 

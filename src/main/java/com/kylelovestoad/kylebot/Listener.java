@@ -31,10 +31,10 @@ public class Listener extends ListenerAdapter {
     public void onGuildMessageReceived(@Nonnull GuildMessageReceivedEvent event) {
 
         User user = event.getAuthor();
-        long guildId = event.getGuild().getIdLong();
+        String guildId = event.getGuild().getId();
 
         // Gets prefix from the database
-        String prefix = SettingsManager.getInstance().get("prefix", guildId).toString();
+        String prefix = SettingsManager.getInstance().get("prefix", "guild_id", guildId).toString();
 
         String raw = event.getMessage().getContentRaw();
 
