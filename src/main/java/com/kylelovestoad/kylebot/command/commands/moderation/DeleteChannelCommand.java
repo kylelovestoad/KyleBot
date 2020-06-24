@@ -1,7 +1,7 @@
 package com.kylelovestoad.kylebot.command.commands.moderation;
 
-import com.kylelovestoad.kylebot.command.CommandCategory;
-import com.kylelovestoad.kylebot.command.ICommand;
+import com.kylelovestoad.kylebot.command.Command;
+import com.kylelovestoad.kylebot.command.CommandType;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -10,7 +10,7 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import java.util.EnumSet;
 import java.util.List;
 
-public class DeleteChannelCommand implements ICommand {
+public class DeleteChannelCommand implements Command {
     @Override
     public void handle(GuildMessageReceivedEvent event, List<String> args) {
 
@@ -56,8 +56,8 @@ public class DeleteChannelCommand implements ICommand {
     }
 
     @Override
-    public CommandCategory getCategory() {
-        return CommandCategory.MODERATION;
+    public CommandType getType() {
+        return CommandType.MODERATION;
     }
 
     @Override

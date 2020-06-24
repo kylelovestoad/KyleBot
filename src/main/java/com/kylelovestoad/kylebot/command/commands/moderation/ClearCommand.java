@@ -1,7 +1,7 @@
 package com.kylelovestoad.kylebot.command.commands.moderation;
 
-import com.kylelovestoad.kylebot.command.CommandCategory;
-import com.kylelovestoad.kylebot.command.ICommand;
+import com.kylelovestoad.kylebot.command.CommandType;
+import com.kylelovestoad.kylebot.command.Command;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Message;
@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-public class ClearCommand implements ICommand {
+public class ClearCommand implements Command {
 
 
     @Override
@@ -122,8 +122,8 @@ public class ClearCommand implements ICommand {
     }
 
     @Override
-    public CommandCategory getCategory() {
-        return CommandCategory.MODERATION;
+    public CommandType getType() {
+        return CommandType.MODERATION;
     }
 
     @Override

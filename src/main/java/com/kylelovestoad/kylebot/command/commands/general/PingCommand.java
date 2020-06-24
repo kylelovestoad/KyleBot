@@ -1,13 +1,13 @@
 package com.kylelovestoad.kylebot.command.commands.general;
 
-import com.kylelovestoad.kylebot.command.CommandCategory;
-import com.kylelovestoad.kylebot.command.ICommand;
+import com.kylelovestoad.kylebot.command.Command;
+import com.kylelovestoad.kylebot.command.CommandType;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.List;
 
-public class PingCommand implements ICommand {
+public class PingCommand implements Command {
 
     @Override
     public void handle(GuildMessageReceivedEvent event, List<String> args) {
@@ -39,7 +39,7 @@ public class PingCommand implements ICommand {
     }
 
     @Override
-    public CommandCategory getCategory() {
-        return CommandCategory.GENERAL;
+    public CommandType getType() {
+        return CommandType.GENERAL;
     }
 }

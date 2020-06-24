@@ -13,8 +13,6 @@ import java.sql.SQLException;
 
 public class SettingsManager {
 
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(SettingsManager.class);
     private static volatile SettingsManager instance = null;
 
     private SettingsManager() {

@@ -1,7 +1,7 @@
 package com.kylelovestoad.kylebot.command.commands.fun;
 
-import com.kylelovestoad.kylebot.command.CommandCategory;
-import com.kylelovestoad.kylebot.command.ICommand;
+import com.kylelovestoad.kylebot.command.CommandType;
+import com.kylelovestoad.kylebot.command.Command;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
@@ -11,7 +11,7 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import java.awt.*;
 import java.util.List;
 
-public class AsshoelCommand implements ICommand {
+public class AsshoelCommand implements Command {
 
     @Override
     public void handle(GuildMessageReceivedEvent event, List<String> args) {
@@ -77,8 +77,8 @@ public class AsshoelCommand implements ICommand {
     }
 
     @Override
-    public CommandCategory getCategory() {
-        return CommandCategory.FUN;
+    public CommandType getType() {
+        return CommandType.FUN;
     }
 
 }

@@ -1,7 +1,7 @@
 package com.kylelovestoad.kylebot.command.commands.moderation;
 
-import com.kylelovestoad.kylebot.command.CommandCategory;
-import com.kylelovestoad.kylebot.command.ICommand;
+import com.kylelovestoad.kylebot.command.CommandType;
+import com.kylelovestoad.kylebot.command.Command;
 import com.kylelovestoad.kylebot.command.SettingsManager;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
@@ -12,12 +12,12 @@ import java.awt.*;
 import java.util.EnumSet;
 import java.util.List;
 
-public class SetPrefixCommand implements ICommand {
+public class SetPrefixCommand implements Command {
 
     @Override
     public void handle(GuildMessageReceivedEvent event, List<String> args) {
 
-        long guildId = event.getGuild().getIdLong();
+        String guildId = event.getGuild().getId();
 
         TextChannel channel = event.getChannel();
 
@@ -59,8 +59,8 @@ public class SetPrefixCommand implements ICommand {
     }
 
     @Override
-    public CommandCategory getCategory() {
-        return CommandCategory.MODERATION;
+    public CommandType getType() {
+        return CommandType.MODERATION;
     }
 
     @Override

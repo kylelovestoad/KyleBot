@@ -1,17 +1,18 @@
 package com.kylelovestoad.kylebot.command.commands.general;
 
-import com.kylelovestoad.kylebot.command.CommandCategory;
+import com.kylelovestoad.kylebot.command.CommandType;
 import com.kylelovestoad.kylebot.command.CommandManager;
-import com.kylelovestoad.kylebot.command.ICommand;
+import com.kylelovestoad.kylebot.command.Command;
 import com.kylelovestoad.kylebot.command.SettingsManager;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.awt.*;
+import java.util.Arrays;
 import java.util.List;
 
-public class HelpCommand implements ICommand {
+public class HelpCommand implements Command {
 
     private final CommandManager manager;
 
@@ -34,7 +35,7 @@ public class HelpCommand implements ICommand {
                     .setTitle("KyleBot Command List")
                     .setColor(Color.BLUE);
 
-            CommandCategory.getNonHiddenCategories().forEach(category ->
+            CommandType.valuesAsList().forEach(category ->
                     embed.addField(category.name().substring(0, 1).toUpperCase() + category.name().substring(1).toLowerCase(), "`" + prefix + this.getName() + " " + category.name().toLowerCase() + "`", true));
 
             channel.sendMessage(embed.build()).queue();
@@ -42,11 +43,11 @@ public class HelpCommand implements ICommand {
         }
 
         String search = args.get(0);
-        ICommand cmd = manager.getCommand(search);
+        Command cmd = manager.getCommand(search);
 
         // If the command does not exist and the user isn't searching for a category, the bot will send a message
         // saying that the command doesn't exist
-        if (cmd == null && !CommandCategory.getNonHiddenCategories().contains(CommandCategory.fromKey(search))) {
+        if (cmd == null && !CommandType.valuesAsList().contains(CommandType.fromKey(search))) {
 
             final EmbedBuilder embed = new EmbedBuilder()
                     .setTitle("Actually, what the fuck")
@@ -62,12 +63,12 @@ public class HelpCommand implements ICommand {
 
             EmbedBuilder embed = new EmbedBuilder();
 
-            if (CommandCategory.getNonHiddenCategories().contains(CommandCategory.fromKey(search))) {
+            if (CommandType.valuesAsList().contains(CommandType.fromKey(search))) {
 
                 embed.setTitle(search.substring(0, 1).toUpperCase() + search.substring(1))
                         .setColor(Color.BLUE);
 
-                manager.filterCommandsByCategory(CommandCategory.fromKey(search)).forEach(command ->
+                manager.filterCommandsByType(CommandType.fromKey(search)).forEach(command ->
                         embed.addField(prefix + command.getName(), command.getHelp(), false));
 
             } else {
@@ -115,8 +116,8 @@ public class HelpCommand implements ICommand {
     }
 
     @Override
-    public CommandCategory getCategory() {
-        return CommandCategory.GENERAL;
+    public CommandType getType() {
+        return CommandType.GENERAL;
     }
 
     @Override

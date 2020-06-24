@@ -1,5 +1,6 @@
 package com.kylelovestoad.kylebot.command;
 
+import com.kylelovestoad.kylebot.Bot;
 import com.kylelovestoad.kylebot.Config;
 import com.kylelovestoad.kylebot.command.commands.fun.*;
 import com.kylelovestoad.kylebot.command.commands.general.GithubCommand;
@@ -47,13 +48,13 @@ public class CommandManager {
         addCommand(new YesSirCommand());
     }
 
-    private final List<ICommand> commands = new ArrayList<>();
+    private final List<Command> commands = new ArrayList<>();
 
     /**
      * Adds the command, also checks for duplicate commands.
      */
-    private void addCommand(ICommand cmd) {
-        boolean duplicateName = this.commands.stream().anyMatch((ICommand it) -> it.getName().equalsIgnoreCase(cmd.getName()));
+    private void addCommand(Command cmd) {
+        boolean duplicateName = this.commands.stream().anyMatch((Command it) -> it.getName().equalsIgnoreCase(cmd.getName()));
 
         if (duplicateName) {
             throw new IllegalArgumentException("Duplicate command name found");
@@ -65,7 +66,7 @@ public class CommandManager {
     /**
      * @return A list of all commands
      */
-    public List<ICommand> getCommands() {
+    public List<Command> getCommands() {
         return commands;
     }
 
@@ -73,9 +74,9 @@ public class CommandManager {
      * @param search The command name which is being searched
      * @return one command
      */
-    public ICommand getCommand(String search) {
+    public Command getCommand(String search) {
         String searchLowerCase = search.toLowerCase();
-        for (ICommand cmd : this.commands) {
+        for (Command cmd : this.commands) {
             if (cmd.getName().equals(searchLowerCase) || cmd.getAliases().contains(searchLowerCase)) {
                 return cmd;
             }
@@ -85,13 +86,13 @@ public class CommandManager {
     }
 
     /**
-     * @param category The current category
+     * @param type The current category
      * @return A list of commands that are in the category
      */
-    public List<ICommand> filterCommandsByCategory(CommandCategory category) {
-        List<ICommand> filteredCommands = new ArrayList<>();
+    public List<Command> filterCommandsByType(CommandType type) {
+        List<Command> filteredCommands = new ArrayList<>();
         this.commands.stream()
-                .filter(cmd -> cmd.getCategory().equals(category))
+                .filter(cmd -> cmd.getType().equals(type))
                 .forEach(filteredCommands::add);
 
         return filteredCommands;
@@ -111,7 +112,7 @@ public class CommandManager {
         }
 
         String invoke = split.get(0).toLowerCase();
-        ICommand cmd = this.getCommand(invoke);
+        Command cmd = this.getCommand(invoke);
 
         // If the command exists
         if (cmd != null) {
